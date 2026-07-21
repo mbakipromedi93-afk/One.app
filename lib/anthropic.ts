@@ -3,6 +3,8 @@ const SYSTEM_ANALYZE =
   "(courriers, avis, factures, contrats). Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni " +
   'après, sans balises markdown, avec exactement ces clés : {"resume": "résumé simple en 2-3 phrases", ' +
   '"actions": ["ce que la personne doit faire, en phrases courtes"], "prochaines_etapes": ["étapes concrètes à venir"], ' +
+  '"date_limite": "la date limite la plus importante mentionnée dans le document au format JJ/MM/AAAA, ou chaîne vide si aucune date limite", ' +
+  '"urgent": true ou false selon si une action est requise sous 15 jours ou moins, ' +
   '"brouillon": "un brouillon de réponse ou de lettre si pertinent, sinon chaîne vide"}. ' +
   "Utilise un langage simple, sans jargon administratif.";
 
@@ -39,7 +41,7 @@ export async function analyzeDocument(base64: string, mediaType: string, isPdf: 
   try {
     return JSON.parse(raw.replace(/```json|```/g, "").trim());
   } catch {
-    return { resume: raw, actions: [], prochaines_etapes: [], brouillon: "" };
+    return { resume: raw, actions: [], prochaines_etapes: [], date_limite: "", urgent: false, brouillon: "" };
   }
 }
 
