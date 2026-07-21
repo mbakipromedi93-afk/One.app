@@ -30,7 +30,10 @@ export async function POST(request: Request) {
 
   try {
     const analysis = await analyzeDocument(base64, file.type, isPdf);
-    await supabase.from("documents").update({ analysis, status: "analyse" }).eq("id", doc.id);
+    await supabase
+      .from("documents")
+      .update({ analysis, status: "analyse", categorie: analysis.categorie || "Autre" })
+      .eq("id", doc.id);
   } catch (err: any) {
     await supabase.from("documents").update({ error: err.message, status: "nouveau" }).eq("id", doc.id);
   }
