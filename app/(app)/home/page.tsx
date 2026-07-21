@@ -5,6 +5,7 @@ import Logo from "@/components/Logo";
 import TrustBadges from "@/components/TrustBadges";
 import Tips from "@/components/Tips";
 import ScoreCard from "@/components/ScoreCard";
+import SearchBar from "@/components/SearchBar";
 
 const STATUS_LABEL: Record<string, string> = { nouveau: "Nouveau", analyse: "Analysé", repondu: "Répondu" };
 
@@ -61,6 +62,7 @@ export default async function HomePage() {
       </header>
 
       <ScoreCard score={score} reasons={reasons} />
+      <SearchBar />
 
       <UploadButton />
       <p className="hint">PDF, JPG ou PNG — courrier, avis, facture, contrat…</p>
@@ -100,4 +102,5 @@ export default async function HomePage() {
     </>
   );
 }
+
 
