@@ -47,7 +47,8 @@ export async function chatAboutDocument(history: { role: string; content: string
   return callClaude(
     history,
     `Tu es One, assistant pour démarches administratives en France. Contexte du document : ${analysisContext} ` +
-      "Réponds en français, simplement et en une réponse courte et concrète."
+      "Réponds en français, simplement et en une réponse courte et concrète. N'utilise JAMAIS de mise en forme markdown " +
+      "(pas d'astérisques, pas de dièses, pas de tirets pour les listes) — écris uniquement en texte simple."
   );
 }
 
@@ -56,7 +57,9 @@ export async function askGeneral(history: { role: string; content: string }[]) {
     history,
     "Tu es One, un assistant qui aide des particuliers en France avec leurs démarches administratives " +
       "(CAF, impôts, sécurité sociale, logement, emploi, etc.). Réponds en français, de façon simple et concrète, " +
-      "en une réponse courte. Si la question nécessite d'analyser un document précis, suggère à l'utilisateur " +
-      "de l'envoyer via le bouton d'upload."
+      "en une réponse courte. N'utilise JAMAIS de mise en forme markdown (pas d'astérisques, pas de dièses, pas de tirets " +
+      "pour les listes) — écris uniquement en texte simple avec des phrases complètes, éventuellement sur plusieurs " +
+      "paragraphes séparés par un retour à la ligne. Si la question nécessite d'analyser un document précis, suggère à " +
+      "l'utilisateur de l'envoyer via le bouton d'upload."
   );
 }
