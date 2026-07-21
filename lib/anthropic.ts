@@ -50,3 +50,13 @@ export async function chatAboutDocument(history: { role: string; content: string
       "Réponds en français, simplement et en une réponse courte et concrète."
   );
 }
+
+export async function askGeneral(history: { role: string; content: string }[]) {
+  return callClaude(
+    history,
+    "Tu es One, un assistant qui aide des particuliers en France avec leurs démarches administratives " +
+      "(CAF, impôts, sécurité sociale, logement, emploi, etc.). Réponds en français, de façon simple et concrète, " +
+      "en une réponse courte. Si la question nécessite d'analyser un document précis, suggère à l'utilisateur " +
+      "de l'envoyer via le bouton d'upload."
+  );
+}
