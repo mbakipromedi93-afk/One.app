@@ -4,21 +4,49 @@ import UploadButton from "@/components/UploadButton";
 import Logo from "@/components/Logo";
 import TrustBadges from "@/components/TrustBadges";
 import Tips from "@/components/Tips";
+import ScoreCard from "@/components/ScoreCard";
 
 const STATUS_LABEL: Record<string, string> = { nouveau: "Nouveau", analyse: "Analysé", repondu: "Répondu" };
+
+function computeScore(documents: any[]) {
+  let score = 100;
+  const reasons: string[] = [];
+
+  const unresolved = documents.filter((d) => d.status !== "repondu");
+  const urgent = documents.filter((d) => d.analysis?.urgent && d.status !== "repondu");
+  const failed = documents.filter((d) => d.error);
+
+  if (urgent.length > 0) {
+    score -= urgent.length * 15;
+    reasons.push(`${urgent.length} document${urgent.length > 1 ? "s" : ""} urgent${urgent.length > 1 ? "s" : ""} en attente`);
+  }
+  const nonUrgentUnresolved = unresolved.length - urgent.length;
+  if (nonUrgentUnresolved > 0) {
+    score -= nonUrgentUnresolved * 6;
+    reasons.push(`${nonUrgentUnresolved} document${nonUrgentUnresolved > 1 ? "s" : ""} à traiter`);
+  }
+  if (failed.length > 0) {
+    score -= failed.length * 4;
+    reasons.push(`${failed.length} document${failed.length > 1 ? "s" : ""} non analysé${failed.length > 1 ? "s" : ""}`);
+  }
+
+  score = Math.max(0, Math.min(100, score));
+  return { score, reasons };
+}
 
 export default async function HomePage() {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const { data: documents } = await supabase
+  const { data: allDocuments } = await supabase
     .from("documents")
     .select("*")
-    .order("created_at", { ascending: false })
-    .limit(3);
+    .order("created_at", { ascending: false });
 
+  const documents = allDocuments?.slice(0, 3) ?? [];
   const firstName = user?.email?.split("@")[0] ?? "";
-  const total = documents?.length ?? 0;
-  const resolved = documents?.filter((d) => d.status === "repondu").length ?? 0;
+  const total = allDocuments?.length ?? 0;
+  const resolved = allDocuments?.filter((d) => d.status === "repondu").length ?? 0;
+  const { score, reasons } = computeScore(allDocuments ?? []);
 
   return (
     <>
@@ -31,6 +59,8 @@ export default async function HomePage() {
           </div>
         </div>
       </header>
+
+      <ScoreCard score={score} reasons={reasons} />
 
       <UploadButton />
       <p className="hint">PDF, JPG ou PNG — courrier, avis, facture, contrat…</p>
@@ -70,3 +100,4 @@ export default async function HomePage() {
     </>
   );
 }
+
