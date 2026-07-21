@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import DraftEditor from "@/components/DraftEditor";
 import ChatThread from "@/components/ChatThread";
 import { notFound } from "next/navigation";
 
@@ -26,6 +27,38 @@ export default async function DocumentPage({ params }: { params: { id: string } 
 
       {doc.error && <p className="error-text">Impossible d'analyser ce document : {doc.error}</p>}
 
+      {doc.analysis?.urgent && (
+        <div
+          style={{
+            background: "#F4DED8",
+            color: "#8A3A24",
+            borderRadius: 12,
+            padding: "10px 14px",
+            fontSize: 13,
+            fontWeight: 600,
+            marginBottom: 12,
+          }}
+        >
+          ⚠️ Urgent — action requise rapidement
+        </div>
+      )}
+
+      {doc.analysis?.date_limite && (
+        <div
+          style={{
+            background: "#FBF3E3",
+            color: "#8A6A1F",
+            borderRadius: 12,
+            padding: "10px 14px",
+            fontSize: 13,
+            fontWeight: 600,
+            marginBottom: 12,
+          }}
+        >
+          📅 Date limite : {doc.analysis.date_limite}
+        </div>
+      )}
+
       {doc.analysis && (
         <div className="analysis-card">
           <p className="analysis-label">✦ Ce que dit le document</p>
@@ -44,8 +77,8 @@ export default async function DocumentPage({ params }: { params: { id: string } 
           )}
           {doc.analysis.brouillon && (
             <>
-              <p className="analysis-label">Brouillon de réponse proposé</p>
-              <pre className="draft">{doc.analysis.brouillon}</pre>
+              <p className="analysis-label">Brouillon de réponse (modifiable)</p>
+              <DraftEditor documentId={doc.id} initialDraft={doc.analysis.brouillon} analysis={doc.analysis} />
             </>
           )}
         </div>
