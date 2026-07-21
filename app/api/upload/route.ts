@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { analyzeDocument } from "@/lib/anthropic";
 
+function parseDateFR(dateStr: string): string | null {
+  const match = dateStr?.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!match) return null;
+  const [, day, month, year] = match;
+  return `${year}-${month}-${day}`;
+}
+
 export async function POST(request: Request) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -34,6 +41,16 @@ export async function POST(request: Request) {
       .from("documents")
       .update({ analysis, status: "analyse", categorie: analysis.categorie || "Autre" })
       .eq("id", doc.id);
+
+    const isoDate = parseDateFR(analysis.date_limite);
+    if (isoDate) {
+      await supabase.from("rappels").insert({
+        document_id: doc.id,
+        user_id: user.id,
+        date_rappel: isoDate,
+        message: `Échéance pour "${file.name}" : ${analysis.date_limite}`,
+      });
+    }
   } catch (err: any) {
     await supabase.from("documents").update({ error: err.message, status: "nouveau" }).eq("id", doc.id);
   }
