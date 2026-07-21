@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: #16213D;
+  --paper: #F6F1E7;
+  --card: #FBF8F1;
+  --border: #EAE2D2;
+  --muted: #8A8578;
+  --gold: #C08A28;
+  --sage: #5B7F63;
+  --clay: #B54834;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: #22252B; font-family: 'Inter', sans-serif; }
+a { color: inherit; }
+
+.shell { max-width: 460px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+.content { flex: 1; padding: 20px 18px 100px; }
+
+h1, h2 { font-family: 'Fraunces', serif; font-weight: 600; margin: 0; }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 14px; color: #4A4E57; }
+input {
+  width: 100%; margin-top: 6px; padding: 11px 12px; border-radius: 10px;
+  border: 1px solid #DDD5C4; font-size: 15px; font-family: inherit; background: #fff;
+}
+button { font-family: inherit; cursor: pointer; }
+.btn-primary {
+  width: 100%; background: var(--ink); color: #fff; border: none; border-radius: 12px;
+  padding: 13px; font-size: 15px; font-weight: 600;
+}
+.btn-ghost {
+  background: none; border: 1px solid #DDD5C4; border-radius: 20px; padding: 6px 12px;
+  font-size: 12px; color: var(--sage);
+}
+.error-text { color: var(--clay); font-size: 13px; margin-top: 10px; }
+
+.top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0; }
+
+.upload-cta {
+  width: 100%; background: var(--ink); color: var(--paper); border: none; border-radius: 16px;
+  padding: 18px; font-size: 16px; font-weight: 600; display: flex; align-items: center;
+  justify-content: center; gap: 10px;
+}
+.hint { font-size: 12px; color: var(--muted); text-align: center; margin: 10px 0 26px; }
+
+.doc-list { display: flex; flex-direction: column; gap: 10px; }
+.doc-card {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px;
+  text-decoration: none;
+}
+.doc-name { font-weight: 600; font-size: 14px; margin: 0 0 3px; }
+.doc-sub { font-size: 12px; color: var(--muted); margin: 0; }
+
+.stamp {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase;
+  letter-spacing: .06em; border: 1.5px solid; border-radius: 20px; padding: 3px 9px;
+  flex-shrink: 0; transform: rotate(-2deg); margin-left: auto;
+}
+
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 460px; background: var(--card); border-top: 1px solid var(--border);
+  display: flex; padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+}
+.bottom-nav a {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  font-size: 10px; color: var(--muted); text-decoration: none; padding: 4px;
+}
+.bottom-nav a.active { color: var(--ink); font-weight: 600; }
+
+.analysis-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+.analysis-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--gold); margin: 14px 0 6px; }
+.analysis-label:first-child { margin-top: 0; }
+.analysis-card ul { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.6; }
+.draft { white-space: pre-wrap; background: #fff; border: 1px dashed #DDD5C4; border-radius: 10px; padding: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.6; }
+
+.bubble { max-width: 82%; padding: 10px 13px; border-radius: 14px; font-size: 14px; line-height: 1.45; margin-bottom: 8px; }
+.bubble.user { background: var(--ink); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
+.bubble.ai { background: #EFE7D6; border-bottom-left-radius: 4px; }
+
+.chat-input-row { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 460px; padding: 8px 18px; background: var(--paper); }
+.chat-input { display: flex; gap: 8px; }
+.chat-input input { flex: 1; border-radius: 20px; }
+.chat-input button { background: var(--ink); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; }
