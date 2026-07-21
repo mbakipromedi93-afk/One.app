@@ -6,6 +6,7 @@ import TrustBadges from "@/components/TrustBadges";
 import Tips from "@/components/Tips";
 import ScoreCard from "@/components/ScoreCard";
 import SearchBar from "@/components/SearchBar";
+import RemindersWidget from "@/components/RemindersWidget";
 
 const STATUS_LABEL: Record<string, string> = { nouveau: "Nouveau", analyse: "Analysé", repondu: "Répondu" };
 
@@ -62,6 +63,7 @@ export default async function HomePage() {
       </header>
 
       <ScoreCard score={score} reasons={reasons} />
+      <RemindersWidget />
       <SearchBar />
 
       <UploadButton />
